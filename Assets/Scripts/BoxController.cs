@@ -1,43 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class BoxController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField]
-    private GameObject parachute;
-
+    [SerializeField] private GameObject parachute;
+    [SerializeField] private TMP_Text deviationText;
+    private UIController ui;
+    private Wind wind;
 
     [Header("Settings")]
-    [SerializeField]
-    private float OpenParachuteHeight = 10;
-
-    [SerializeField]
-    private float OpenParachuteHeightDeviation = 2;
-
-    [SerializeField]
-    private float minYVelocity = -2;
-
-    [SerializeField]
-    private float maxYVelocity = 1;
-
-    [SerializeField]
-    private float parachuteDrag = 3;
-
+    [SerializeField] private float OpenParachuteHeight = 10;
+    [SerializeField] private float OpenParachuteHeightDeviation = 2;
+    [SerializeField] private float minYVelocity = -2;
+    [SerializeField] private float maxYVelocity = 1;
+    [SerializeField] private float parachuteDrag = 3;
 
     private Rigidbody rb;
     private float parachuteOpenHeight;
     private Vector3 parachuteInitialScale;
+    private const float parachuteType = 3f;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        ui = FindObjectOfType<UIController>();
+        wind = Wind.Instance;
         parachuteOpenHeight = transform.position.y - OpenParachuteHeight + Random.Range(-OpenParachuteHeightDeviation, OpenParachuteHeightDeviation);
         parachuteInitialScale = parachute.transform.localScale;
 
         parachute.SetActive(false);
         parachute.transform.localScale = Vector3.zero;
+        deviationText.rectTransform.localScale = new Vector3(-1, 1, 1);
+        deviationText.text = "";
     }
 
     private void Update()
@@ -53,6 +49,9 @@ public class BoxController : MonoBehaviour
             SetParachute(true);
 
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0), Time.deltaTime * 5);
+            deviationText.rectTransform.LookAt(Camera.main.transform.position);
+            float deviationValue = parachuteType * ui.Height / 10 * wind.Value;
+            deviationText.text = deviationValue % 1 == 0 ? $"D = {deviationValue:0}m" : $"D = {deviationValue:0.00}m";
         }
     }
 
