@@ -5,3 +5,4 @@ Temp/
 Assembly-CSharp-Editor.csproj
 Assembly-CSharp.csproj
 parachute-simulation.sln
+*.blob
