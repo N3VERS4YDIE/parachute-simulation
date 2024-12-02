@@ -6,7 +6,7 @@ This Unity-based project is designed to simulate and validate the mechanics of p
 - Drop height (affects drift and parachute opening time).
 - Wind dynamics (affects drift distance and drop accuracy).
 
-https://github.com/user-attachments/assets/cf52fd6c-97e6-43bc-8ff1-e2ea2fc40cf7
+https://github.com/user-attachments/assets/e5fbe09a-0f8b-454e-be5f-976c2cc10863
 
 ## Features
 
